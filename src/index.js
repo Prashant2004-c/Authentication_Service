@@ -3,6 +3,9 @@ const { PORT, JWT_KEY } = require('./config/serverConfig');
 const apiRoutes = require('./routes/index');
 const bodyParser = require('body-parser');
 const app = express();
+
+const db = require('./models/index');
+const {User , Role} = require('./models/index');
 // const UserRepository = require('./repository/user-repository');
 
 // const user_service = require('./services/user-service');
@@ -12,10 +15,21 @@ const prepareAndStartServer = async () => {
     app.use(bodyParser.urlencoded({extended:true}));
     app.use(bodyParser.json());
     app.use('/api', apiRoutes); 
+
     
     app.listen(PORT, async () => {
         // console.log(PORT);
         console.log(`Server Started on Port: ${PORT}`);
+        if(process.env.DB_SYNC){
+            db.sequelize.sync({alter: true});
+        }
+
+        const u1 = await User.findByPk(3);
+        const r1 = await Role.findByPk(1);
+        u1.addRole(r1);
+
+
+
         // const userRepository = new UserRepository();
         // const user = await userRepository.getById(1);
         // console.log(`${user.email}   ${user.id}`);
