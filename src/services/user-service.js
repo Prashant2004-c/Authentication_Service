@@ -29,7 +29,7 @@ class UserService {
                 console.log("password does not match");
                 throw {error: 'incorrect password'};
             }
-            // step 3->  if pass match generate token and send it to the user
+            // step 3->  if password match generate token and send it to the user
             const newJWT = this.createToken({email: user.email , id: user.id});
             return newJWT;
         } catch (error) {
