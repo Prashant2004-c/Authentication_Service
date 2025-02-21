@@ -25,5 +25,9 @@ router.get(
     UserController.isAdmin
 )
 
+router.get(
+    '/users/:id', UserController.getUser
+)
+
 
 module.exports = router;
